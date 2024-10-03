@@ -62,6 +62,12 @@ end, {
 vim.keymap.set("n", "<leader>ok", ":!mv '%:p' /Users/chaileasevn/Documents/Obsidian\\ Vault/spaceman1412<cr>:bd<cr>", {
   desc = "Move current buffer to spaceman1412 folder",
 })
+
+-- move file in current buffer to inbox tempt folder
+vim.keymap.set("n", "<leader>ot", ":!mv '%:p' /Users/chaileasevn/Documents/Obsidian\\ Vault/inbox<cr>:bd<cr>", {
+  desc = "Move current buffer to inbox tempt folder",
+})
+
 -- delete file in current buffer
 vim.keymap.set("n", "<leader>od", function()
   -- Get the current file path
@@ -91,4 +97,6 @@ vim.keymap.set("n", "<leader>oh", function()
   vim.ui.input({ prompt = "Enter hub name" }, function(input)
     vim.cmd(":!touch /Users/chaileasevn/Documents/Obsidian\\ Vault/hubs/" .. input .. ".md")
   end)
-end)
+end, {
+  desc = "Add hub",
+})
