@@ -5,6 +5,33 @@
 local telescope_builtin = require("telescope.builtin")
 local whichkey_builtin = require("which-key")
 
+-- Reconfig Alt keys when using tmux-tilish
+vim.keymap.del({
+  "n",
+  "i",
+  "v",
+}, "<A-j>")
+vim.keymap.del({
+  "n",
+  "i",
+  "v",
+}, "<A-k>")
+
+-- Move Lines
+vim.keymap.set("n", "<A-[>", "<cmd>m .+1<cr>==", { desc = "Move Down" })
+vim.keymap.set("n", "<A-]>", "<cmd>m .-2<cr>==", { desc = "Move Up" })
+vim.keymap.set("i", "<A-[>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move Down" })
+vim.keymap.set("i", "<A-]>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move Up" })
+vim.keymap.set("v", "<A-[>", ":m '>+1<cr>gv=gv", { desc = "Move Down" })
+vim.keymap.set("v", "<A-]>", ":m '<-2<cr>gv=gv", { desc = "Move Up" })
+
+-- Increment/decrement
+vim.keymap.set("n", "+", "<C-a>")
+vim.keymap.set("n", "-", "<C-x>")
+
+-- Select all
+vim.keymap.set("n", "<leader>a", "gg<S-v>G")
+
 -- Add group obisidan to which-key
 whichkey_builtin.add({
   { "<leader>o", group = "obsidian" },
