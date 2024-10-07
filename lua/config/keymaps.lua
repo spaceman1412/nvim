@@ -121,6 +121,32 @@ end, { noremap = true, silent = true, desc = "Delete current file with confirmat
 
 -- Create hub with input
 vim.keymap.set("n", "<leader>oh", function()
+  -- local inputFile = "/Users/chaileasevn/Documents/Obsidian Vault/templates/note.md"
+  -- local file = io.open(inputFile, "r")
+  -- local fileContent = {}
+  -- if file == nil then
+  --   return
+  -- end
+  -- for line in file:lines() do
+  --   table.insert(fileContent, line)
+  -- end
+  -- io.close(file)
+  -- local lineTest = string.find(fileContent[5], "#")
+  -- print(lineTest)
+  --
+  -- file = io.open(inputFile, "w")
+  -- if file == nil then
+  --   return
+  -- end
+  -- for index, value in ipairs(fileContent) do
+  --   file:write(value .. "\n")
+  -- end
+  -- io.close(file)
+
+  -- We need to find a extract all the hub name after # and replace it with new one
+  -- continue with the , between it
+  -- We need to write a function that fetch all the hub exist and add it to template
+
   vim.ui.input({ prompt = "Enter hub name" }, function(input)
     vim.cmd(":!touch /Users/chaileasevn/Documents/Obsidian\\ Vault/hubs/" .. input .. ".md")
   end)
