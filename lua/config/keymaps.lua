@@ -119,6 +119,46 @@ vim.keymap.set("n", "<leader>od", function()
   end
 end, { noremap = true, silent = true, desc = "Delete current file with confirmation" })
 
+-- Function to organize tasks in visual selection
+local function organize_tasks()
+  local start_row, start_col = unpack(vim.api.nvim_buf_get_mark(0, "<"))
+  local end_row, end_col = unpack(vim.api.nvim_buf_get_mark(0, ">"))
+
+  -- Retrieve the selected lines
+  local lines = vim.api.nvim_buf_get_lines(0, start_row - 1, end_row, false)
+
+  -- Adjust the first and last lines if the selection is partial
+  if #lines == 1 then
+    lines[1] = string.sub(lines[1], start_col + 1, end_col + 1)
+  else
+    lines[1] = string.sub(lines[1], start_col + 1)
+    lines[#lines] = string.sub(lines[#lines], 1, end_col + 1)
+  end
+
+  local unfinished_tasks = {}
+  local finished_tasks = {}
+
+  -- Sort lines into unfinished and finished tasks
+  for _, line in ipairs(lines) do
+    if line:match("^%- %[ %]") then
+      table.insert(unfinished_tasks, line)
+    elseif line:match("^%- %[x%]") then
+      table.insert(finished_tasks, line)
+    end
+  end
+
+  -- Combine sorted tasks with a line break in between
+  local organized_lines = vim.list_extend(unfinished_tasks, { "" })
+  organized_lines = vim.list_extend(organized_lines, finished_tasks)
+
+  -- Replace the selected lines with organized lines
+  vim.api.nvim_buf_set_lines(0, start_row - 1, end_row, false, organized_lines)
+
+  print("Tasks have been organized")
+end
+
+-- Create a Neovim command to easily call the function
+vim.api.nvim_create_user_command("OrganizeTasks", organize_tasks, { range = true })
 -- Create hub with input
 vim.keymap.set("n", "<leader>oh", function()
   -- local inputFile = "/Users/chaileasevn/Documents/Obsidian Vault/templates/note.md"
